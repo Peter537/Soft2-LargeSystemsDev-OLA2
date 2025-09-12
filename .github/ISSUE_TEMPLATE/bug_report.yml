@@ -1,0 +1,21 @@
+name: Bug Report
+description: Report a bug to help us improve
+title: "[Bug]: "
+labels: bug
+
+body:
+  - type: checkboxes
+    id: existing-issue
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please search to see if an issue already exists for your bug.
+      options:
+        - label: I have searched the existing issues
+          required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: Please describe the bug.
+      placeholder: Tell us what happened!
+      required: true
