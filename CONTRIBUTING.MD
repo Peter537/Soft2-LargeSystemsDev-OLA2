@@ -2,7 +2,6 @@
 ## 1. Getting Started
 - Clone the repo: `git clone https://github.com/Peter537/Soft2-LargeSystemsDev-OLA2`
 
-- Verificere at dit environment er sat op, ved at køre projektet og tests via `dotnet run` og `dotnet test`.
 
 ## 2. Branching Rules
 - Brug GitHub Flow branching strategi. 
