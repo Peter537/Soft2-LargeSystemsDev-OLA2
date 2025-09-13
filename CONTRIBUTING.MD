@@ -33,7 +33,7 @@
         
 
 ## 4. Code Style Rules
-- Følg C# coding conventions som beskrevet i [Microsoft's C# Coding Conventions](https://learn.microsoft.com/en-us/dotnet/csharp/fundamentals/coding-style/coding-conventions).
+- Vores standard er at følge .editorconfig filen i roden af repositoryet. Hvis den ikke overholdes, vil CI pipeline fejle, hvilket gør at koden ikke kan merges til main branch. Så hold dig til denne fil.
 
 
 ## 5. Expected Workflow
