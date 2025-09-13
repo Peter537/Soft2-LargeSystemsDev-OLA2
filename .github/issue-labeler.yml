@@ -1,0 +1,11 @@
+feature:
+  - '(?i)\bfeature\b'
+  - '(?i)\benhancement\b'
+bug:
+  - '(?i)\bbug\b'
+  - '(?i)\bfejl\b'
+documentation:
+  - '(?i)\bdocs?\b'
+  - '(?i)\bdokumentation\b'
+priority:high:
+  - '(?i)\bpriority:\s*high\b'
