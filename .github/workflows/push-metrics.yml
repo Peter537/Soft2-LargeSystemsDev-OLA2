@@ -1,0 +1,86 @@
+name: Main Push Metrics
+
+on:
+  schedule:
+    - cron: '0 1 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  collect:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate Push Metrics CSV (dedupe)
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo } = context.repo;
+            const fs = require('fs');
+            const path = '.github/data/push-metrics.csv';
+
+            // Hent sidste 90 dages commits på default branch
+            const branch = process.env.GITHUB_REF_NAME || (await github.repos.get(context.repo)).data.default_branch;
+            const since = new Date(Date.now() - 90*24*60*60*1000).toISOString();
+
+            let page = 1, commits = [];
+            for (;;) {
+              const { data } = await github.request(
+                'GET /repos/{owner}/{repo}/commits',
+                { owner, repo, sha: branch, since, per_page: 100, page }
+              );
+              commits = commits.concat(data);
+              if (data.length < 100) break;
+              page++;
+            }
+
+            // Map til CSV-rækker
+            const rows = commits.map(c => ({
+              sha: c.sha,
+              date: new Date(c.commit.author.date).toISOString().slice(0,10)
+            }));
+
+            // Læs eksisterende for dedupe
+            fs.mkdirSync('.github/data', { recursive: true });
+            let existing = new Set();
+            if (fs.existsSync(path)) {
+              const lines = fs.readFileSync(path, 'utf8').trim().split('\n').slice(1);
+              for (const line of lines) {
+                const [sha] = line.split(',');
+                existing.add(sha.replace(/^"|"$/g,''));
+              }
+            } else {
+              fs.writeFileSync(path, 'SHA,Date\n', 'utf8');
+            }
+
+            const esc = s => `"${String(s).replace(/"/g,'""')}"`;
+            const newLines = rows
+              .filter(r => !existing.has(r.sha))
+              .map(r => `${esc(r.sha)},${esc(r.date)}`)
+              .join('\n');
+
+            if (newLines) {
+              fs.appendFileSync(path, newLines + '\n', 'utf8');
+              core.info(`Appended ${rows.length} commit rows (deduped)`);
+            } else {
+              core.info('No new commits to append');
+            }
+
+      - name: Setup Python and make graph
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: |
+          pip install pandas matplotlib
+          python .github/scripts/push_graph.py
+
+      - name: Commit graph and CSV
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add .github/data/push-metrics.csv .github/data/push-graph.png
+          git commit -m 'Update push metrics' || echo "No changes to commit"
+          git push
