@@ -1,0 +1,30 @@
+name: .NET CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**/*.sln'
+      - '**/*.csproj'
+      - '**/*.cs'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET SDK 9.0.302
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '9.0.302'
+
+      - name: Restore
+        run: dotnet restore
+
+      - name: Build (Release)
+        run: dotnet build --configuration Release --no-restore
+
+      - name: Test
+        run: dotnet test --configuration Release --no-build
