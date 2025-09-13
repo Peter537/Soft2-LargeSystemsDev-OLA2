@@ -1,0 +1,18 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Abstracta.JmeterDsl" Version="0.8.0" />
+    <PackageVersion Include="coverlet.collector" Version="6.0.4" />
+    <PackageVersion Include="coverlet.msbuild" Version="6.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.19" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.14.1" />
+    <PackageVersion Include="Microsoft.Testing.Extensions.TrxReport" Version="1.8.4" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="MSTest" Version="3.10.4" />
+    <PackageVersion Include="MSTest.TestAdapter" Version="3.10.4" />
+    <PackageVersion Include="MSTest.TestFramework" Version="3.10.4" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+</Project>
