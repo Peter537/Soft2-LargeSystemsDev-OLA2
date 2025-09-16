@@ -6,6 +6,10 @@
 - Peter (Peter537, cph-pa153)
 - Yusuf (StylizedAce, cph-ya56)
 
+## Video
+
+Her er vores video præsentation: [https://youtu.be/nUEO56yEjfM](https://youtu.be/nUEO56yEjfM)
+
 ## About the Project
 
 Dette er et template repository for hurtigt og effektivt at oprette et nyt projekt med en standardiseret struktur og konfiguration.
